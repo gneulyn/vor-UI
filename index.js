@@ -63,7 +63,7 @@ document.onunload = function () {
 //function being called once when socket is opened (connected)
 socket.onopen = function () {
     console.log("connected");
-    socket.send("ask for current color here?");
+    socket.send("GET");
 };
 
 //callback for receiving messages from the server
@@ -81,6 +81,8 @@ socket.onmessage = function (event) {
     }
 
     knoetCW.color(knoetSettings.hexColor);
+
+    $('#knoetSpeed')[0].MaterialSlider.change(knoetSettings.speed);
 
     //important to update the message when receiving - best case scenario is they are both structured identically so just assign the new values like this:
     msg = servermsg;
