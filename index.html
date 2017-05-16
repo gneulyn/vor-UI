@@ -26,27 +26,37 @@
 <body>
     <div id="wrapper">
 
-        <main class="mdl-layout__content">    
-         <div class="mdl-tabs mdl-js-tabs">
-            <div class="mdl-tabs__tab-bar">
-               <a href="#tab1-panel" class="mdl-tabs__tab is-active">Knöterich</a>
-               <a href="#tab2-panel" class="mdl-tabs__tab">PARs</a>
-               <a href="#tab3-panel" class="mdl-tabs__tab">Nebel</a>
+        <main class="mdl-layout__content">
+            <div class="mdl-tabs mdl-js-tabs">
+                <div class="mdl-tabs__tab-bar">
+                    <a href="#tab1-panel" class="mdl-tabs__tab is-active">Knöterich</a>
+                    <a href="#tab2-panel" class="mdl-tabs__tab">PARs</a>
+                    <a href="#tab3-panel" class="mdl-tabs__tab">Nebel</a>
+                </div>
+                <div class="mdl-tabs__panel is-active" id="tab1-panel">
+                    <!-- knoeterich color wheel-->
+                    <div id="knoeterichCol"></div>
+                    <label id="knoetBeatSwitch" for="switch1" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                        <input type="checkbox" id="switch1" class="mdl-switch__input">
+                        <span class="mdl-switch__label">BeatSync</span>
+                    </label>
+                </div>
+                <div class="mdl-tabs__panel" id="tab2-panel">
+                    <!-- par color wheel-->
+                    <div id="parCol"></div>
+                </div>
+                <div class="mdl-tabs__panel" id="tab3-panel">
+                    <!-- nebel button-->
+                    <td><button class="mdl-button mdl-js-button mdl-button--fab"><i class="material-icons">add</i></button></td>
+                </div>
             </div>
-            <div class="mdl-tabs__panel is-active" id="tab1-panel">
-               <div id="knoeterichCol" ></div>
-            </div>
-            <div class="mdl-tabs__panel" id="tab2-panel">
-               <div id="parCol" ></div>
-            </div>
-            <div class="mdl-tabs__panel" id="tab3-panel">
-               <td><button class="mdl-button mdl-js-button mdl-button--fab"><i class="material-icons">add</i></button></td>
-            </div>
-         </div>
-	  </main>
+
+
+
+        </main>
 
     </div>
-    
+
     <script src="index.js"></script>
 
 </body>

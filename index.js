@@ -4,6 +4,8 @@ var body = document.getElementById('wrapper');
 
 var cwSize = 400;
 
+var knoetCW;
+
 /*
 var redSlider = document.createElement("INPUT");
 redSlider.setAttribute("type", "range");
@@ -38,21 +40,33 @@ var green = 0;
 var blue = 0;
 
 //close socket properly if page is closed/refreshed
-document.onunload = function (){
+document.onunload = function () {
     socket.close();
 };
 
 //function being called once when socket is opened (connected)
-socket.onopen = function(){
+socket.onopen = function () {
     console.log("connected");
     socket.send("ask for current color here?");
 };
 
 //callback for receiving messages from the server
-socket.onmessage = function(event) {
-  var f = document.getElementById("chatbox").contentDocument;
-  var text = "";
-  var servermsg = JSON.parse(event.data);
+socket.onmessage = function (event) {
+
+    var servermsg = JSON.parse(event.data);
+
+    //update the settings with server information
+    var knoetSettings = servermsg.knoeterich;
+    if (knoetSettings.beatSwitch == 1) {
+        $('#knoetBeatSwitch')[0].MaterialSwitch.on();
+    }
+    else {
+        $('#knoetBeatSwitch')[0].MaterialSwitch.off();
+    }
+
+    knoetCW.color(knoetSettings.hexColor);
+
+
 };
 
 
@@ -61,17 +75,20 @@ socket.onmessage = function(event) {
 
 window.onload = function () {
 
+
+    /*************************************************************************
+     * Knoeterich
+     ************************************************************************/
+
     //create the colorwheel (alter war das ne ficke mit der library, bis das lief)
-    var knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"),cwSize);
+    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), cwSize);
 
     //after initialising the colorwheel, the "default" color can be set, would make sense to get the current color from the websocket for this
     knoetCW.color("#F00");
 
-    var parCW = Raphael.colorwheel(document.getElementById("parCol"),cwSize);
-    parCW.color("#F00");
-        
+
     //throttle the callback funtion to make sure it only sends maximum every 50 ms, but also doesnt send if it doesnt need to
-    knoetCW.onchange ( throttle(function(cwColor){
+    knoetCW.onchange(throttle(function (cwColor) {
         var msg = {
             ledcolor: {
                 red: cwColor.r,
@@ -81,10 +98,29 @@ window.onload = function () {
         };
 
         socket.send(JSON.stringify(msg));
-    },50));
+    }, 50));
 
 
-       
+
+
+
+    /*************************************************************************
+     * PARs
+     ************************************************************************/
+    var parCW = Raphael.colorwheel(document.getElementById("parCol"), cwSize);
+    parCW.color("#F00");
+
+
+
+
+    /*************************************************************************
+     * Nebel
+     ************************************************************************/
+
+
+
+
+
 };
 
 
@@ -98,26 +134,26 @@ function updateValue(value, id) {
 
 //from https://remysharp.com/2010/07/21/throttling-function-calls
 function throttle(fn, threshhold, scope) {
-  threshhold || (threshhold = 250);
-  var last,
-      deferTimer;
-  return function () {
-    var context = scope || this;
+    threshhold || (threshhold = 250);
+    var last,
+        deferTimer;
+    return function () {
+        var context = scope || this;
 
-    var now = +new Date,
-        args = arguments;
-    if (last && now < last + threshhold) {
-      // hold on to it
-      clearTimeout(deferTimer);
-      deferTimer = setTimeout(function () {
-        last = now;
-        fn.apply(context, args);
-      }, threshhold);
-    } else {
-      last = now;
-      fn.apply(context, args);
-    }
-  };
+        var now = +new Date,
+            args = arguments;
+        if (last && now < last + threshhold) {
+            // hold on to it
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+                last = now;
+                fn.apply(context, args);
+            }, threshhold);
+        } else {
+            last = now;
+            fn.apply(context, args);
+        }
+    };
 }
 
 
