@@ -62,14 +62,16 @@ socket.onmessage = function(event) {
 window.onload = function () {
 
     //create the colorwheel (alter war das ne ficke mit der library, bis das lief)
-    var cw = Raphael.colorwheel(document.getElementById("colorwheel"),cwSize);
+    var knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"),cwSize);
 
     //after initialising the colorwheel, the "default" color can be set, would make sense to get the current color from the websocket for this
-    cw.color("#F00");
+    knoetCW.color("#F00");
 
+    var parCW = Raphael.colorwheel(document.getElementById("parCol"),cwSize);
+    parCW.color("#F00");
         
     //throttle the callback funtion to make sure it only sends maximum every 50 ms, but also doesnt send if it doesnt need to
-    cw.onchange ( throttle(function(cwColor){
+    knoetCW.onchange ( throttle(function(cwColor){
         var msg = {
             ledcolor: {
                 red: cwColor.r,

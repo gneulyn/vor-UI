@@ -7,6 +7,10 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script src="raphael.min.js"></script>
     <script src="colorwheel.js"></script>
+
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <style media="screen">
@@ -22,8 +26,27 @@
 <body>
     <div id="wrapper">
 
+        <main class="mdl-layout__content">    
+         <div class="mdl-tabs mdl-js-tabs">
+            <div class="mdl-tabs__tab-bar">
+               <a href="#tab1-panel" class="mdl-tabs__tab is-active">Knöterich</a>
+               <a href="#tab2-panel" class="mdl-tabs__tab">PARs</a>
+               <a href="#tab3-panel" class="mdl-tabs__tab">Nebel</a>
+            </div>
+            <div class="mdl-tabs__panel is-active" id="tab1-panel">
+               <div id="knoeterichCol" ></div>
+            </div>
+            <div class="mdl-tabs__panel" id="tab2-panel">
+               <div id="parCol" ></div>
+            </div>
+            <div class="mdl-tabs__panel" id="tab3-panel">
+               <td><button class="mdl-button mdl-js-button mdl-button--fab"><i class="material-icons">add</i></button></td>
+            </div>
+         </div>
+	  </main>
+
     </div>
-    <div id="colorwheel" ></div>
+    
     <script src="index.js"></script>
 
 </body>
