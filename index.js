@@ -5,6 +5,7 @@ var body = document.getElementById('wrapper');
 var cwSize = 400;
 
 var knoetCW;
+var knoetBeatSwitch;
 
 /*
 var redSlider = document.createElement("INPUT");
@@ -33,6 +34,21 @@ nextButton.setAttribute("id", "next");
 
 */
 
+//prototype for the message
+var msg = {
+    knoeterich: {
+        hexColor: "#FFFF",
+        beatSync: 1,
+        speed: 1
+    },
+    pars: {
+
+    },
+    nebel: {
+        fire: false
+    }
+};
+
 
 
 
@@ -57,7 +73,7 @@ socket.onmessage = function (event) {
 
     //update the settings with server information
     var knoetSettings = servermsg.knoeterich;
-    if (knoetSettings.beatSwitch == 1) {
+    if (knoetSettings.beatSync == 1) {
         $('#knoetBeatSwitch')[0].MaterialSwitch.on();
     }
     else {
@@ -65,6 +81,9 @@ socket.onmessage = function (event) {
     }
 
     knoetCW.color(knoetSettings.hexColor);
+
+    //important to update the message when receiving - best case scenario is they are both structured identically so just assign the new values like this:
+    msg = servermsg;
 
 
 };
@@ -89,17 +108,31 @@ window.onload = function () {
 
     //throttle the callback funtion to make sure it only sends maximum every 50 ms, but also doesnt send if it doesnt need to
     knoetCW.onchange(throttle(function (cwColor) {
-        var msg = {
-            ledcolor: {
-                red: cwColor.r,
-                green: cwColor.g,
-                blue: cwColor.b
-            }
-        };
+        msg.knoeterich.hexColor = cwColor.hex;
 
         socket.send(JSON.stringify(msg));
     }, 50));
 
+
+    knoetBeatSwitch = document.getElementById('knoetBeatSwitch')
+
+    //the material design library somehow needs a different object for the input change event... 
+    $("#switch1").change(function () {
+        //console.log($("#switch1")[0].checked);
+        msg.knoeterich.beatSync = $("#switch1")[0].checked;
+        socket.send(JSON.stringify(msg));
+
+
+
+    });
+
+    //set and send speed of knoeterich
+    $("#knoetSpeed").on('input', throttle(function () {
+        //console.log($("#switch1")[0].checked);
+        msg.knoeterich.speed = $("#knoetSpeed")[0].value;
+        socket.send(JSON.stringify(msg));
+
+    }, 50));
 
 
 
