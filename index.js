@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://127.0.0.1:8006");
+var socket = new WebSocket("ws://192.168.1.103:8006");
 
 var body = document.getElementById('wrapper');
 
@@ -104,8 +104,7 @@ window.onload = function () {
     //create the colorwheel (alter war das ne ficke mit der library, bis das lief)
     knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), cwSize);
 
-    //after initialising the colorwheel, the "default" color can be set, would make sense to get the current color from the websocket for this
-    knoetCW.color("#F00");
+
 
 
     //throttle the callback funtion to make sure it only sends maximum every 50 ms, but also doesnt send if it doesnt need to
