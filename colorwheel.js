@@ -13,7 +13,6 @@
 Raphael.colorwheel = function(target, color_wheel_size, no_segments){
   var canvas,
       current_color,
-      current_color_hsb,
       size,
       segments = no_segments || 60,
       bs_square = {},
@@ -65,8 +64,7 @@ Raphael.colorwheel = function(target, color_wheel_size, no_segments){
       input: input,
       onchange: onchange,
       ondrag : ondrag,
-      color : public_set_color,
-      color_hsb : public_set_color_hsb
+      color : public_set_color
     };
   }
 
@@ -183,39 +181,16 @@ Raphael.colorwheel = function(target, color_wheel_size, no_segments){
   }
 
   function public_set_color(value){
-    var ret = set_color(value, false);
+    var ret = set_color(value);
     update_color(false);
     return ret;
   }
 
-  function public_set_color_hsb(hsb){
-    var ret = set_color(hsb, true);
-    update_color(false);
-    return ret;
-  }
+  function set_color(value){
+    if(value === undefined){ return current_color; }
 
-  function set_color(value, is_hsb){
-    if(value === undefined){
-        if(is_hsb){
-            return current_color_hsb;
-        } else {
-            return current_color;
-        }
-    }
-
-    var hsb, hex;
-    if(is_hsb){
-        hsb = value;
-        // Allow v (value) instead of b (brightness), as v is sometimes
-        // used by Raphael.
-        if(hsb.b === undefined){ hsb.b = hsb.v; }
-        var rgb = canvas.raphael.hsb2rgb(hsb.h, hsb.s, hsb.b);
-        hex = rgb.hex;
-    } else {
-        hex = value;
-        hsb = canvas.raphael.rgb2hsb(hex);
-    }
-    var temp = canvas.rect(1,1,1,1).attr({fill:hex});
+    var temp = canvas.rect(1,1,1,1).attr({fill:value}),
+        hsb = canvas.raphael.rgb2hsb(temp.attr("fill"));
 
     set_bs_cursor(
       (0-sdim.l/2) + (sdim.l*hsb.s),
@@ -235,7 +210,6 @@ Raphael.colorwheel = function(target, color_wheel_size, no_segments){
           h: hue()
         };
 
-    current_color_hsb = hsb;
     current_color = Raphael.hsb2rgb(hsb.h, hsb.s,hsb.b);
 
     if(input_target){
