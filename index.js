@@ -2,6 +2,8 @@ var socket = new WebSocket("ws://192.168.1.103:8006");
 
 var body = document.getElementById('wrapper');
 
+var screen = $(window).width;
+
 var cwSize = 400;
 
 var knoetCW;
@@ -102,7 +104,7 @@ window.onload = function () {
      ************************************************************************/
 
     //create the colorwheel (alter war das ne ficke mit der library, bis das lief)
-    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), cwSize);
+    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), $(window).width());
 
 
 
