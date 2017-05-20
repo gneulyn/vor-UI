@@ -104,7 +104,7 @@ window.onload = function () {
      ************************************************************************/
 
     //create the colorwheel (alter war das ne ficke mit der library, bis das lief)
-    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), $(window).width());
+    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), ($(window).width()*0.8));
 
 
 
