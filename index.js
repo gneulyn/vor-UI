@@ -2,7 +2,7 @@ var socket = new WebSocket("ws://192.168.1.103:8006");
 
 var body = document.getElementById('wrapper');
 
-var screen = $(window).width;
+//var screen = $(window).width;
 
 var cwSize = 400;
 
@@ -75,16 +75,18 @@ socket.onmessage = function (event) {
 
     //update the settings with server information
     var knoetSettings = servermsg.knoeterich;
-    if (knoetSettings.beatSync == 1) {
+
+    //TODO toggleClass instead Materialswitch
+    /*if (knoetSettings.beatSync == 1) {
         $('#knoetBeatSwitch')[0].MaterialSwitch.on();
     }
     else {
         $('#knoetBeatSwitch')[0].MaterialSwitch.off();
-    }
+    }*/
 
     knoetCW.color(knoetSettings.hexColor);
 
-    $('#knoetSpeed')[0].MaterialSlider.change(knoetSettings.speed);
+    //$('#knoetSpeed')[0].MaterialSlider.change(knoetSettings.speed);
 
     //important to update the message when receiving - best case scenario is they are both structured identically so just assign the new values like this:
     msg = servermsg;
@@ -98,6 +100,10 @@ socket.onmessage = function (event) {
 
 window.onload = function () {
 
+    if (navigator.userAgent.includes('Windows')) {
+        console.log("ARSCH");
+    }
+
 
     /*************************************************************************
      * Knoeterich
@@ -107,7 +113,7 @@ window.onload = function () {
     knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), ($(window).width()*0.8));
 
 
-
+    knoetCW.color('#000000');
 
     //throttle the callback funtion to make sure it only sends maximum every 50 ms, but also doesnt send if it doesnt need to
     knoetCW.onchange(throttle(function (cwColor) {
@@ -117,7 +123,7 @@ window.onload = function () {
     }, 50));
 
 
-    knoetBeatSwitch = document.getElementById('knoetBeatSwitch')
+    knoetBeatSwitch = document.getElementById('knoetBeatSwitch');
 
     //the material design library somehow needs a different object for the input change event... 
     $("#switch1").change(function () {
