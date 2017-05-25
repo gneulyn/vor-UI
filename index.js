@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://192.168.1.103:8006");
+var socket = new WebSocket("ws://localhost:8006");
 
 var body = document.getElementById('wrapper');
 
@@ -8,6 +8,7 @@ var cwSize = 400;
 
 var knoetCW;
 var knoetBeatSwitch;
+var knoetSpeed;
 
 /*
 var redSlider = document.createElement("INPUT");
@@ -75,18 +76,17 @@ socket.onmessage = function (event) {
 
     //update the settings with server information
     var knoetSettings = servermsg.knoeterich;
-
-    //TODO toggleClass instead Materialswitch
-    /*if (knoetSettings.beatSync == 1) {
-        $('#knoetBeatSwitch')[0].MaterialSwitch.on();
+    if (knoetSettings.beatSync == 1) {
+        knoetBeatSwitch.checked = true;
     }
     else {
-        $('#knoetBeatSwitch')[0].MaterialSwitch.off();
-    }*/
+        knoetBeatSwitch.checked = false;
+    }
 
     knoetCW.color(knoetSettings.hexColor);
 
-    //$('#knoetSpeed')[0].MaterialSlider.change(knoetSettings.speed);
+    knoetSpeed.value = knoetSettings.speed;
+
 
     //important to update the message when receiving - best case scenario is they are both structured identically so just assign the new values like this:
     msg = servermsg;
@@ -110,7 +110,7 @@ window.onload = function () {
      ************************************************************************/
 
     //create the colorwheel (alter war das ne ficke mit der library, bis das lief)
-    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), ($(window).width()*0.8));
+    knoetCW = Raphael.colorwheel(document.getElementById("knoeterichCol"), ($(window).width() * 0.8));
 
 
     knoetCW.color('#000000');
@@ -123,8 +123,13 @@ window.onload = function () {
     }, 50));
 
 
-    knoetBeatSwitch = document.getElementById('knoetBeatSwitch');
+    knoetBeatSwitch = document.querySelector('input[id="knoetBeatSwitch"]');
 
+
+    knoetBeatSwitch.onchange = function () {
+        msg.knoeterich.beatSync = knoetBeatSwitch.checked
+        socket.send(JSON.stringify(msg));
+    }
     //the material design library somehow needs a different object for the input change event... 
     $("#switch1").change(function () {
         //console.log($("#switch1")[0].checked);
@@ -135,13 +140,15 @@ window.onload = function () {
 
     });
 
+    knoetSpeed = document.getElementById("knoetSpeed");
+
     //set and send speed of knoeterich
-    $("#knoetSpeed").on('input', throttle(function () {
+    knoetSpeed.oninput = throttle(function () {
         //console.log($("#switch1")[0].checked);
-        msg.knoeterich.speed = $("#knoetSpeed")[0].value;
+        msg.knoeterich.speed = knoetSpeed.value;
         socket.send(JSON.stringify(msg));
 
-    }, 50));
+    }, 50);
 
 
 

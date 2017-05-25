@@ -7,7 +7,8 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script src="raphael.min.js"></script>
     <script src="colorwheel.js"></script>
-
+    <script src="./materialize/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
     <link rel="stylesheet" href="index.css">
 
 </head>
@@ -16,22 +17,42 @@
     <div id="wrapper">
 
 
-        <!-- knoeterich color wheel-->
-        <div id="knoeterichCol"></div>
-        <!-- knoeterich beat switch-->
 
-        <label class="switch">
-            <input type="checkbox">
-            <div class="slider"></div>
-        </label>
 
-        <!-- knoeterich speed control-->
-        <h5>Speed</h5>
-        <input id="knoetSpeed" type="range" min="0" max="1" value="0" step="0.01">
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s4"><a href="#knoeterich">Knoeterich</a></li>
+                    <li class="tab col s4"><a class="active" href="#pars">PARs</a></li>
+                    <li class="tab col s4"><a href="#nebel ">Nebel</a></li>
 
-        <br>
-        <br><br>
-        <button>GO</button>
+                </ul>
+            </div>
+
+
+            <div class="col s12" id="knoeterich">
+                <!-- knoeterich color wheel-->
+                <div id="knoeterichCol"></div>
+                <!-- knoeterich beat switch-->
+
+                <label class="switch">
+                <input id=knoetBeatSwitch type="checkbox">
+                <div class="slider"></div>
+            </label>
+
+                <!-- knoeterich speed control-->
+                <h5>Speed</h5>
+                <input id="knoetSpeed" type="range" min="0" max="1" value="0" step="0.001">
+            </div>
+
+            <div class="col s12" id="pars">
+            </div>
+
+            <div class="col s12" id="nebel">
+                <button>GO</button>
+            </div>
+        </div>
+
 
 
     </div>
