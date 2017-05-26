@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://localhost:8006");
+var socket = new WebSocket("ws://192.168.178.53:8006");
 
 var body = document.getElementById('wrapper');
 
@@ -206,7 +206,32 @@ function throttle(fn, threshhold, scope) {
 }
 
 
+function toggleNavigation(tab) {
 
+    let currentView = $('.activeTab');
+
+    console.log(currentView[0].id, tab[0].id);
+
+    switch(true) {
+        case (currentView[0].id == 'undefined'):
+            $('.Decke').toggleClass('activeTab');
+            currentView = tab;
+            break;
+        case (currentView[0].id == tab[0].id):
+            console.log('already selected');
+            break;
+        case (currentView[0].id != tab[0].id):
+            currentView.toggleClass('activeTab');
+            tab.toggleClass('activeTab');
+            currentView = tab;
+            console.log("!=", currentView[0].id, tab[0].id);
+            break;
+    }
+    //console.log()
+
+    let selection = tab[0].id;
+
+}
 
 //redSlider.appendChild(redLabel);
 
