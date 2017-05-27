@@ -16,8 +16,8 @@
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 50px;
+  width: 50px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -53,6 +53,8 @@
         text-align: center;
         font-size: 3em;
         margin-bottom: 50px;
+        border-bottom: 10px solid #ff6d00;
+
     }
 
     .activeTab {
@@ -65,8 +67,21 @@
         flex-direction: column;
     }
 
-    #knoeterichCol {
+    .colorWheel {
         margin: auto;
+    }
+
+    #nebelButton {
+        width: 80%;
+        height: 500px;
+        margin: 10%;
+        border: solid 1px black;
+        background-color: #fff;
+        font-size: 3em;
+    }
+
+    #nebelButton:active {
+        background-color: #ff0000;
     }
 
     /* The switch - the box around the slider */
@@ -74,8 +89,8 @@
         position: relative;
         display: inline-block;
         left: 100px;
-        width: 60px;
-        height: 34px;
+        width: 120px;
+        height: 60px;
     }
 
     /* Hide default HTML checkbox */
@@ -90,9 +105,9 @@
     }
 
     input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
+        -webkit-transform: translateX(60px);
+        -ms-transform: translateX(60px);
+        transform: translateX(60px);
     }
 
 
@@ -112,7 +127,7 @@
         cursor: pointer;
         animate: 0.2s;
         box-shadow: 0px 0px 0px #000000;
-        background: rgb(20,40,80);
+        background: rgb(200,40,80);
         border-radius: 2px;
         border: 0px solid #000000;
     }
@@ -136,7 +151,7 @@
         cursor: pointer;
         animate: 0.2s;
         box-shadow: 0px 0px 0px #000000;
-        background: rgb(20,40,80);
+        background: rgb(200,40,80);
         border-radius: 2px;
         border: 0px solid #000000;
     }

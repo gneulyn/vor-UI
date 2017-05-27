@@ -16,7 +16,7 @@
     <div id="wrapper">
 
         <div id="navigation">
-            <div id="Decke" class="navigationTab activeTab" onclick="toggleNavigation($(this))">Decke</div>
+            <div id="Decke" class="navigationTab" onclick="toggleNavigation($(this))">Decke</div>
             <div id="PARs" class="navigationTab" onclick="toggleNavigation($(this))">PARs</div>
             <div id="Nebel" class="navigationTab" onclick="toggleNavigation($(this))">Nebel</div>
         </div>
@@ -24,7 +24,7 @@
 
         <div id="knoeterich">
             <!-- knoeterich color wheel-->
-            <div id="knoeterichCol"></div>
+            <div id="knoeterichCol" class="colorWheel"></div>
             <!-- knoeterich beat switch-->
 
                 <label class="switch">
@@ -38,11 +38,13 @@
             <input id="knoetSpeed" type="range" min="0" max="1" value="0" step="0.001">
         </div>
 
-        <div class="col s12" id="pars">
+        <div id="parTab" class="col s12" id="pars">
+            <div id="parColorWheel" class="colorWheel"></div>
         </div>
 
-        <div class="col s12" id="nebel">
-            <button>GO</button>
+        <div id="nebelTab">
+
+            <button id="nebelButton">GO</button>
         </div>
 
 

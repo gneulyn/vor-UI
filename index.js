@@ -9,6 +9,7 @@ var cwSize = 400;
 var knoetCW;
 var knoetBeatSwitch;
 var knoetSpeed;
+var parCW;
 
 /*
 var redSlider = document.createElement("INPUT");
@@ -45,7 +46,7 @@ var msg = {
         speed: 1
     },
     pars: {
-
+        hexColor: "#FFFF",
     },
     nebel: {
         fire: false
@@ -103,6 +104,8 @@ window.onload = function () {
     if (navigator.userAgent.includes('Windows')) {
         console.log("ARSCH");
     }
+    toggleNavigation($('#Decke'));
+
 
 
     /*************************************************************************
@@ -121,6 +124,7 @@ window.onload = function () {
 
         socket.send(JSON.stringify(msg));
     }, 50));
+
 
 
     knoetBeatSwitch = document.querySelector('input[id="knoetBeatSwitch"]');
@@ -156,19 +160,27 @@ window.onload = function () {
     /*************************************************************************
      * PARs
      ************************************************************************/
-    var parCW = Raphael.colorwheel(document.getElementById("parCol"), cwSize);
-    parCW.color("#F00");
+    parCW = Raphael.colorwheel(document.getElementById("parColorWheel"), ($(window).width() * 0.8));
 
+    parCW.onchange(throttle(function (cwColor) {
+        msg.pars.hexColor = cwColor.hex;
 
-
+        socket.send(JSON.stringify(msg));
+    }, 50));
 
     /*************************************************************************
      * Nebel
      ************************************************************************/
 
+    $('#nebelButton').mousedown(function(){
+        msg.nebel.fire = 1;
+        socket.send(JSON.stringify(msg));
+    });
 
-
-
+    $('#nebelButton').mouseup(function(){
+        msg.nebel.fire = 0;
+        socket.send(JSON.stringify(msg));
+    });
 
 };
 
@@ -209,22 +221,43 @@ function throttle(fn, threshhold, scope) {
 function toggleNavigation(tab) {
 
     let currentView = $('.activeTab');
+    console.log("CURRENTVIEW:", currentView);
 
-    console.log(currentView[0].id, tab[0].id);
+    //console.log(currentView[0].id, tab[0].id);
 
     switch(true) {
-        case (currentView[0].id == 'undefined'):
-            $('.Decke').toggleClass('activeTab');
+        case (currentView.length == 0):
+            $('#Decke').toggleClass('activeTab');
             currentView = tab;
+            $('#parTab').css({display: 'none'});
+            $('#nebelTab').css({display: 'none'});
+
+            console.log('loaded');
             break;
         case (currentView[0].id == tab[0].id):
             console.log('already selected');
+
             break;
         case (currentView[0].id != tab[0].id):
             currentView.toggleClass('activeTab');
             tab.toggleClass('activeTab');
             currentView = tab;
+
             console.log("!=", currentView[0].id, tab[0].id);
+            if(tab[0].id == 'PARs') {
+                $('#parTab').css({display: 'block'});
+                $('#nebelTab').css({display: 'none'});
+                $('#knoeterich').css({display: 'none'});
+            } else if(tab[0].id == 'Nebel') {
+                $('#parTab').css({display: 'none'});
+                $('#nebelTab').css({display: 'block'});
+                $('#knoeterich').css({display: 'none'});
+            } else if(tab[0].id == 'Decke') {
+                $('#parTab').css({display: 'none'});
+                $('#nebelTab').css({display: 'none'});
+                $('#knoeterich').css({display: 'block'});
+            }
+
             break;
     }
     //console.log()
